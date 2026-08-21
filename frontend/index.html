@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0f1a" />
+    <meta name="description" content="FaeNet - a rede social academica da ETESC." />
+    <title>FaeNet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%237c5cff'/><stop offset='1' stop-color='%2300d4b4'/></linearGradient></defs><rect rx='14' width='64' height='64' fill='url(%23g)'/><text x='50%25' y='58%25' font-family='Syne, sans-serif' font-size='28' font-weight='800' text-anchor='middle' fill='white'>F</text></svg>" />
+</head>
+<body>
+    <!-- Loading inicial -->
+    <div id="app-loading" class="app-loading">
+        <div class="app-loading__logo">FaeNet</div>
+        <div class="app-loading__spinner"></div>
+    </div>
+
+    <!-- Conteudo principal (SPA) -->
+    <div id="app" class="app" hidden></div>
+
+    <!-- Toast container -->
+    <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Modal root -->
+    <div id="modal-root" class="modal-root" hidden></div>
+
+    <!-- Templates HTML usados pelos modulos JS -->
+    <template id="tpl-login">
+        <div class="auth">
+            <div class="auth__panel">
+                <div class="auth__brand">
+                    <div class="auth__logo">FaeNet</div>
+                    <div class="auth__tagline">A rede social academica da ETESC.</div>
+                </div>
+                <form class="auth__form" data-form="login">
+                    <h2 class="auth__title">Entrar</h2>
+                    <label class="field">
+                        <span class="field__label">Usuario</span>
+                        <input class="field__input" name="username" type="text" required autocomplete="username" placeholder="seu usuario" />
+                    </label>
+                    <label class="field">
+                        <span class="field__label">Senha</span>
+                        <input class="field__input" name="password" type="password" required autocomplete="current-password" placeholder="sua senha" />
+                    </label>
+                    <button class="btn btn--primary btn--block" type="submit">Entrar</button>
+                    <p class="auth__hint">Nao tem conta? <a href="/register" data-link>Criar conta</a></p>
+                    <details class="auth__demo">
+                        <summary>Contas de demonstracao</summary>
+                        <p class="muted">Usuario: <code>pablo</code> · Senha: <code>demo1234</code></p>
+                        <p class="muted">Usuario: <code>marlon</code> · Senha: <code>demo1234</code></p>
+                        <p class="muted">Usuario: <code>aline</code> · Senha: <code>demo1234</code></p>
+                    </details>
+                </form>
+            </div>
+            <div class="auth__art" aria-hidden="true">
+                <div class="auth__art-grid"></div>
+                <div class="auth__art-glow"></div>
+                <div class="auth__art-card">
+                    <div class="auth__art-title">Conectando ideias. Construindo comunidade.</div>
+                    <ul class="auth__art-list">
+                        <li>Feed academico com enquetes e midia</li>
+                        <li>Stories de 24h</li>
+                        <li>Mensagens privadas com arquivos</li>
+                        <li>Hub do Curso: estagios, provas e forum</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-register">
+        <div class="auth">
+            <div class="auth__panel">
+                <div class="auth__brand">
+                    <div class="auth__logo">FaeNet</div>
+                    <div class="auth__tagline">Crie sua conta e faca parte.</div>
+                </div>
+                <form class="auth__form" data-form="register">
+                    <h2 class="auth__title">Criar conta</h2>
+                    <label class="field">
+                        <span class="field__label">Nome de usuario</span>
+                        <input class="field__input" name="username" type="text" required minlength="3" maxlength="30" pattern="[A-Za-z0-9_.]{3,30}" placeholder="ex: maria.silva" />
+                    </label>
+                    <label class="field">
+                        <span class="field__label">Nome completo</span>
+                        <input class="field__input" name="name" type="text" required maxlength="120" placeholder="Seu nome completo" />
+                    </label>
+                    <div class="field-row">
+                        <label class="field">
+                            <span class="field__label">Curso</span>
+                            <input class="field__input" name="curso" type="text" maxlength="80" placeholder="Informatica" />
+                        </label>
+                        <label class="field">
+                            <span class="field__label">Turma</span>
+                            <input class="field__input" name="turma" type="text" maxlength="100" placeholder="3 Ano - Informatica" />
+                        </label>
+                    </div>
+                    <label class="field">
+                        <span class="field__label">Senha</span>
+                        <input class="field__input" name="password" type="password" required minlength="6" maxlength="128" autocomplete="new-password" placeholder="minimo 6 caracteres" />
+                    </label>
+                    <button class="btn btn--primary btn--block" type="submit">Cadastrar</button>
+                    <p class="auth__hint">Ja tem conta? <a href="/login" data-link>Entrar</a></p>
+                </form>
+            </div>
+            <div class="auth__art" aria-hidden="true">
+                <div class="auth__art-grid"></div>
+                <div class="auth__art-glow"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- App shell (carregado apos login) -->
+    <template id="tpl-app">
+        <div class="shell">
+            <aside class="sidebar" aria-label="Menu principal">
+                <div class="sidebar__brand">
+                    <div class="sidebar__logo">FaeNet</div>
+                </div>
+                <nav class="sidebar__nav">
+                    <a class="sidebar__link" data-route="feed" href="/feed"><span class="sidebar__icon">🏠</span><span>Inicio</span></a>
+                    <a class="sidebar__link" data-route="explore" href="/explore"><span class="sidebar__icon">🔍</span><span>Explorar</span></a>
+                    <a class="sidebar__link" data-route="hub" href="/hub"><span class="sidebar__icon">📚</span><span>Hub do Curso</span></a>
+                    <a class="sidebar__link" data-route="messages" href="/messages"><span class="sidebar__icon">✉️</span><span>Mensagens</span><span class="badge" data-badge="messages" hidden>0</span></a>
+                    <a class="sidebar__link" data-route="notifications" href="/notifications"><span class="sidebar__icon">🔔</span><span>Notificacoes</span><span class="badge" data-badge="notifications" hidden>0</span></a>
+                    <a class="sidebar__link" data-route="profile" href="/profile"><span class="sidebar__icon">👤</span><span>Perfil</span></a>
+                    <a class="sidebar__link" data-route="settings" href="/settings"><span class="sidebar__icon">⚙️</span><span>Configuracoes</span></a>
+                </nav>
+                <button class="btn btn--primary btn--block sidebar__compose" data-action="compose">
+                    <span>+ Criar publicacao</span>
+                </button>
+                <div class="sidebar__user" data-action="me-menu">
+                    <div class="avatar avatar--sm" data-avatar="me">FN</div>
+                    <div class="sidebar__user-info">
+                        <div class="sidebar__user-name" data-text="me-name">Carregando...</div>
+                        <div class="sidebar__user-username" data-text="me-username">@...</div>
+                    </div>
+                </div>
+                <button class="sidebar__logout" data-action="logout">Sair</button>
+            </aside>
+
+            <main class="main" data-view="main"></main>
+
+            <aside class="rightbar" aria-label="Sugestoes e atalhos">
+                <div class="rightbar__block">
+                    <div class="rightbar__title">Usuarios online</div>
+                    <div class="rightbar__list" data-list="online"></div>
+                </div>
+                <div class="rightbar__block">
+                    <div class="rightbar__title">Sugestoes para seguir</div>
+                    <div class="rightbar__list" data-list="suggestions"></div>
+                </div>
+                <div class="rightbar__block rightbar__shortcut">
+                    <div class="rightbar__title">Hub do Curso</div>
+                    <p class="muted">Estagios, provas e forum de duvidas separados por curso.</p>
+                    <a class="btn btn--ghost btn--block" href="/hub" data-link>Abrir Hub</a>
+                </div>
+            </aside>
+
+            <nav class="bottombar" aria-label="Navegacao inferior">
+                <a class="bottombar__link" data-route="feed" href="/feed"><span>🏠</span><span>Inicio</span></a>
+                <a class="bottombar__link" data-route="explore" href="/explore"><span>🔍</span><span>Explorar</span></a>
+                <button class="bottombar__compose" data-action="compose">＋</button>
+                <a class="bottombar__link" data-route="messages" href="/messages"><span>✉️</span><span>Chat</span><span class="badge" data-badge="messages" hidden>0</span></a>
+                <a class="bottombar__link" data-route="notifications" href="/notifications"><span>🔔</span><span>Notif.</span><span class="badge" data-badge="notifications" hidden>0</span></a>
+            </nav>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/feed.js"></script>
+    <script src="/js/profile.js"></script>
+    <script src="/js/messages.js"></script>
+    <script src="/js/hub.js"></script>
+    <script src="/js/notifications.js"></script>
+    <script src="/js/explore.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+# =====================================================
+# FaeNet - .gitignore
+# =====================================================
+
+# Variaveis de ambiente
+.env
+
+# Bancos locais
+*.db
+*.sqlite
+*.sqlite3
+instance/*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+
+# Uploads locais (manter estrutura mas ignorar arquivos)
+backend/uploads/avatars/*
+backend/uploads/banners/*
+backend/uploads/posts/*
+backend/uploads/stories/*
+backend/uploads/messages/*
+!backend/uploads/**/.gitkeep
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Builds
+dist/
+build/
+*.egg-info/
+
+# Logs e artefatos de teste locais
+*.log
+server.log
+server.err.log
+smoke_test.py
+test_flows.py

@@ -1,0 +1,78 @@
+/* =====================================================
+   FaeNet - responsive.css
+   Ajustes de responsividade, principalmente em telas
+   menores (tablet e mobile).
+   ===================================================== */
+
+@media (max-width: 1100px) {
+    :root {
+        --rightbar-w: 0px;
+    }
+}
+
+@media (max-width: 900px) {
+    .auth {
+        padding: 24px 12px;
+    }
+    .auth__art { display: none; }
+    .auth__panel { max-width: 100%; padding: 24px 12px; }
+    .auth__form { padding: 22px; }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --sidebar-w: 0px;
+        --fs-base: 14.5px;
+    }
+
+    .main { padding: 12px 10px 100px; }
+
+    .page-header { flex-direction: column; align-items: flex-start; }
+    .page-header__title { font-size: var(--fs-xl); }
+
+    /* Gallery simplifica no mobile */
+    .gallery--gm,
+    .gallery--g4 { grid-template-columns: 1fr 1fr; }
+    .gallery--gm .gallery__item:first-child { grid-row: auto; grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery--g3 { grid-template-columns: 1fr 1fr; }
+    .gallery--g3 .gallery__item:first-child { grid-row: auto; grid-column: span 2; aspect-ratio: 16/9; }
+
+    /* Post actions empilhados em mobile */
+    .post__actions { gap: 0; }
+    .action { padding: 6px; font-size: 12px; }
+    .action__count { display: none; }
+
+    /* Mensagens full screen */
+    .chat { height: calc(100vh - 60px); border-radius: 0; border: 0; }
+    .chat__messages { padding: 12px; }
+    .msg { max-width: 80%; }
+
+    .profile__main { padding: 0 12px 12px; }
+    .profile__name { font-size: var(--fs-lg); }
+    .profile__avatar-wrap { margin-top: -40px; }
+    .profile__avatar-wrap .avatar { width: 80px; height: 80px; font-size: 28px; }
+}
+
+@media (max-width: 480px) {
+    .auth__logo { font-size: 32px; }
+    .auth__form { padding: 18px; }
+    .field__input { padding: 12px; }
+    .btn { padding: 12px 14px; }
+
+    .compose__media { grid-template-columns: 1fr 1fr; }
+    .story { min-width: 56px; }
+}
+
+@media (max-width: 360px) {
+    .post { padding: 12px; }
+    .post__name { font-size: var(--fs-sm); }
+    .post__meta { font-size: 11px; }
+    .post__content { font-size: var(--fs-sm); }
+}
+
+/* Acessibilidade: foco visivel em tudo */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}

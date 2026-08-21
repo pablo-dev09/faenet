@@ -1,0 +1,101 @@
+/* =====================================================
+   FaeNet - auth.js
+   Telas de login e cadastro. Mantem o estado de sessao
+   em memoria (sincronizado com o cookie de sessao do Flask).
+   ===================================================== */
+
+(function (global) {
+    'use strict';
+
+    const Auth = {
+        currentUser: null,
+
+        async bootstrap() {
+            try {
+                this.currentUser = await FaeAPI.me();
+            } catch (err) {
+                this.currentUser = null;
+            }
+            return this.currentUser;
+        },
+
+        async login(username, password) {
+            const user = await FaeAPI.login(username, password);
+            this.currentUser = user;
+            return user;
+        },
+
+        async register(data) {
+            const user = await FaeAPI.register(data);
+            this.currentUser = user;
+            return user;
+        },
+
+        async logout() {
+            try { await FaeAPI.logout(); } catch (e) {}
+            this.currentUser = null;
+        },
+
+        isAuthed() { return !!this.currentUser; },
+
+        renderLogin() {
+            const tpl = document.getElementById('tpl-login');
+            const root = document.getElementById('app');
+            root.innerHTML = '';
+            root.appendChild(tpl.content.cloneNode(true));
+
+            const form = root.querySelector('[data-form="login"]');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = new FormData(form);
+                const submit = form.querySelector('button[type="submit"]');
+                submit.disabled = true;
+                submit.textContent = 'Entrando...';
+                try {
+                    await Auth.login(data.get('username').trim(), data.get('password'));
+                    FaeUtils.success('Bem-vindo de volta!');
+                    window.FaeApp.mount();
+                } catch (err) {
+                    FaeUtils.error(err.message);
+                } finally {
+                    submit.disabled = false;
+                    submit.textContent = 'Entrar';
+                }
+            });
+        },
+
+        renderRegister() {
+            const tpl = document.getElementById('tpl-register');
+            const root = document.getElementById('app');
+            root.innerHTML = '';
+            root.appendChild(tpl.content.cloneNode(true));
+
+            const form = root.querySelector('[data-form="register"]');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = new FormData(form);
+                const submit = form.querySelector('button[type="submit"]');
+                submit.disabled = true;
+                submit.textContent = 'Criando conta...';
+                try {
+                    await Auth.register({
+                        username: data.get('username').trim(),
+                        name: data.get('name').trim(),
+                        curso: data.get('curso')?.trim(),
+                        turma: data.get('turma')?.trim(),
+                        password: data.get('password'),
+                    });
+                    FaeUtils.success('Conta criada! Entrando...');
+                    window.FaeApp.mount();
+                } catch (err) {
+                    FaeUtils.error(err.message);
+                } finally {
+                    submit.disabled = false;
+                    submit.textContent = 'Cadastrar';
+                }
+            });
+        },
+    };
+
+    global.FaeAuth = Auth;
+})(window);
