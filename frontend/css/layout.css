@@ -126,10 +126,9 @@
     margin: auto;
     max-width: 420px;
     padding: 28px;
-    background: rgba(20, 26, 50, 0.75);
+    background: rgba(20, 26, 50, 0.92);
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
-    backdrop-filter: blur(8px);
     box-shadow: var(--shadow-lg);
     top: 50%;
     transform: translateY(-50%);
@@ -195,8 +194,7 @@
     flex-direction: column;
     gap: 14px;
     border-right: 1px solid var(--line);
-    background: rgba(10, 13, 24, 0.7);
-    backdrop-filter: blur(8px);
+    background: rgba(10, 13, 24, 0.95);
 }
 
 @media (max-width: 768px) {
@@ -385,8 +383,7 @@
     left: 0;
     right: 0;
     height: 60px;
-    background: rgba(10, 13, 24, 0.95);
-    backdrop-filter: blur(8px);
+    background: rgba(10, 13, 24, 0.98);
     border-top: 1px solid var(--line);
     display: none;
     align-items: center;
